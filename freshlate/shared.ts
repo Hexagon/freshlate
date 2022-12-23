@@ -1,6 +1,22 @@
 import { JSX, options as preactOptions, VNode } from "preact";
 import { lang_svc } from "./translation.ts";
 
+<<<<<<< HEAD
+=======
+declare module "preact" {
+  namespace JSX {
+    interface DOMAttributes<Target extends EventTarget> {
+      /**
+       * The translation key to use for the element's text content.
+       */
+      "data-t-key"?: string;
+      "lang"?: string;
+      "data-t-key-params"?: Record<string, string>;
+    }
+  }
+}
+
+>>>>>>> 296e716 (vnode lang property + consider html lang='..')
 /**
  * Options for the translation service.
  */
@@ -60,6 +76,11 @@ export function setup(options: Options, language?: string) {
       // If a language was passed in, set it as the language to use
       if (language) {
         translate_props.lang = language;
+      }
+
+      // If the vnode has a lang attribute, use that instead
+      if (props?.["lang"]) {
+        translate_props.lang = props?.["lang"];
       }
 
       // If the key is an array, map over all items and translate them if necessary
